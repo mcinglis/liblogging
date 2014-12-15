@@ -16,8 +16,8 @@ int main( int const argc,
 
     log_warning( l, "error's severity is 30, so this will be printed" );
 
-    log_error( l, "There are five pre-defined logging levels: debug (10),"
-                  "info (20), warning (30), error (40), and critical (50)." );
+    log_error( l, "There are five pre-defined logging levels: DEBUG (10),"
+                  "INFO (20), WARNING (30), ERROR (40), and CRITICAL (50)." );
 
     log_critical( l, "Each of the default logging levels has a corresponding "
                      "macro that is shorthand for calling the `log` member of "
@@ -27,6 +27,10 @@ int main( int const argc,
     log_debug( l, "hello world #%d", 42 );
     // is shorthand for:
     l.log( l, log_level_debug, "hello world #%d", 42 );
+
+    // Note that those last two log calls will not be printed, because the
+    // severity level of `log_level_debug` is less than the logger's
+    // minimum severity of 20.
 }
 ```
 

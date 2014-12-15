@@ -29,11 +29,11 @@
 #include <libbase/uchar.h>
 
 
-LogLevel const log_level_debug    = { .name = "debug",    .severity = 10 };
-LogLevel const log_level_info     = { .name = "info",     .severity = 20 };
-LogLevel const log_level_warning  = { .name = "warning",  .severity = 30 };
-LogLevel const log_level_error    = { .name = "error",    .severity = 40 };
-LogLevel const log_level_critical = { .name = "critical", .severity = 50 };
+LogLevel const log_level_debug    = { .name = "DEBUG",    .severity = 10 };
+LogLevel const log_level_info     = { .name = "INFO",     .severity = 20 };
+LogLevel const log_level_warning  = { .name = "WARNING",  .severity = 30 };
+LogLevel const log_level_error    = { .name = "ERROR",    .severity = 40 };
+LogLevel const log_level_critical = { .name = "CRITICAL", .severity = 50 };
 
 
 Maybe_LogSeverity
