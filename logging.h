@@ -27,9 +27,7 @@
 #include <libtypes/types.h>
 
 
-typedef struct LogSeverity {
-    uchar v;
-} LogSeverity;
+typedef uchar LogSeverity;
 
 
 typedef struct LogLevel {
