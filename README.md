@@ -7,7 +7,7 @@ int main( int const argc,
           char const * const * const argv )
 {
     Logger const l = logger__new( .name = argv[ 0 ],
-                                  .min_severity = { 20 } );
+                                  .min_severity = 20 );
 
     log_info( l, "Our logger has the default logging handler (%p), "
                  "which will print messages to stderr as long as the "

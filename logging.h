@@ -56,14 +56,6 @@ extern LogLevel const log_level_error;
 extern LogLevel const log_level_critical;
 
 
-bool
-log_level__is_valid( LogLevel );
-
-
-bool
-logger__is_valid( Logger );
-
-
 Maybe_LogSeverity
 log_severity__from_str( char const * str );
 
