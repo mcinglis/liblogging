@@ -36,11 +36,15 @@ LogLevel const log_level_error    = { .name = "error",    .severity = 40 };
 LogLevel const log_level_critical = { .name = "critical", .severity = 50 };
 
 
-LogSeverity
-log_severity__from_str( char const * const str,
-                        bool * const err )
+Maybe_LogSeverity
+log_severity__from_str( char const * const str )
 {
-    return ( LogSeverity ){ uchar__from_str( str, err ) };
+    Maybe_uchar const m = uchar__from_str( str );
+    if ( m.nothing ) {
+        return ( Maybe_LogSeverity ){ .nothing = true };
+    } else {
+        return ( Maybe_LogSeverity ){ .value = m.value };
+    }
 }
 
 

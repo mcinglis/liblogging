@@ -29,6 +29,11 @@
 
 typedef uchar LogSeverity;
 
+typedef struct {
+    LogSeverity value;
+    bool nothing;
+} Maybe_LogSeverity;
+
 
 typedef struct LogLevel {
     char const * name;
@@ -59,9 +64,8 @@ bool
 logger__is_valid( Logger );
 
 
-LogSeverity
-log_severity__from_str( char const * str,
-                        bool * err );
+Maybe_LogSeverity
+log_severity__from_str( char const * str );
 
 
 Logger
