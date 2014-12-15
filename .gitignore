@@ -1,3 +1,4 @@
 deps
+example
 *.o
 *.dep.mk
