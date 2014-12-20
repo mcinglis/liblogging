@@ -56,6 +56,13 @@ extern LogLevel const log_level_error;
 extern LogLevel const log_level_critical;
 
 
+#define LOG_SEVERITY__DEBUG     10
+#define LOG_SEVERITY__INFO      20
+#define LOG_SEVERITY__WARNING   30
+#define LOG_SEVERITY__ERROR     40
+#define LOG_SEVERITY__CRITICAL  50
+
+
 Maybe_LogSeverity
 log_severity__from_str( char const * str );
 
