@@ -26,7 +26,9 @@ int main( int const argc,
     // For example, this:
     log_debug( l, "hello world #%d", 42 );
     // is shorthand for:
-    l.log( l, log_level_debug, "hello world #%d", 42 );
+    if ( l.log != NULL ) {
+        l.log( l, log_level_debug, "hello world #%d", 42 );
+    }
 
     // Note that those last two log calls will not be printed, because the
     // severity level of `log_level_debug` is less than the logger's

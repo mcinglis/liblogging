@@ -77,23 +77,33 @@ logger__default_log( Logger,
 
 // @public
 #define log_debug( LOGGER, ... ) \
-    ( LOGGER ).log( LOGGER, log_level_debug, __VA_ARGS__ )
+    if ( ( LOGGER ).log != NULL ) { \
+        ( LOGGER ).log( LOGGER, log_level_debug, __VA_ARGS__ ); \
+    }
 
 // @public
 #define log_info( LOGGER, ... ) \
-    ( LOGGER ).log( LOGGER, log_level_info, __VA_ARGS__ )
+    if ( ( LOGGER ).log != NULL ) { \
+        ( LOGGER ).log( LOGGER, log_level_info, __VA_ARGS__ ); \
+    }
 
 // @public
 #define log_warning( LOGGER, ... ) \
-    ( LOGGER ).log( LOGGER, log_level_warning, __VA_ARGS__ )
+    if ( ( LOGGER ).log != NULL ) { \
+        ( LOGGER ).log( LOGGER, log_level_warning, __VA_ARGS__ ); \
+    }
 
 // @public
 #define log_error( LOGGER, ... ) \
-    ( LOGGER ).log( LOGGER, log_level_error, __VA_ARGS__ )
+    if ( ( LOGGER ).log != NULL ) { \
+        ( LOGGER ).log( LOGGER, log_level_error, __VA_ARGS__ ); \
+    }
 
 // @public
 #define log_critical( LOGGER, ... ) \
-    ( LOGGER ).log( LOGGER, log_level_critical, __VA_ARGS__ )
+    if ( ( LOGGER ).log != NULL ) { \
+        ( LOGGER ).log( LOGGER, log_level_critical, __VA_ARGS__ ); \
+    }
 
 
 #endif
