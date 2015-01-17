@@ -71,7 +71,7 @@ To accept notable contributions, I'll require you to assign your copyright to me
 
 ## License
 
-**Copyright 2014 Malcolm Inglis <http://minglis.id.au>**
+**Copyright 2015 Malcolm Inglis <http://minglis.id.au>**
 
 Liblogging is free software: you can redistribute it and/or modify it under the terms of the [GNU Affero General Public License](https://gnu.org/licenses/agpl.html) as published by the [Free Software Foundation](https://fsf.org), either version 3 of the License, or (at your option) any later version.
 
