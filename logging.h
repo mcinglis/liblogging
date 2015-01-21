@@ -98,6 +98,11 @@ logger__default_log( Logger,
                      ... );
 
 
+#define LOGGER_DEFAULT \
+    { .log = logger__default_log, \
+      .min_severity = LOG_SEVERITY__INFO }
+
+
 // @public
 #define log_debug( LOGGER, ... ) \
     if ( ( LOGGER ).log != NULL ) { \
