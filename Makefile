@@ -37,7 +37,10 @@ fast: all
 .PHONY: objects
 objects: $(objects)
 
-example: logging.o $(DEPS_DIR)/libbase/uchar.o $(DEPS_DIR)/libmacro/require.o
+example: logging.o \
+         $(DEPS_DIR)/libbase/uchar.o \
+         $(DEPS_DIR)/libbase/str.o \
+         $(DEPS_DIR)/libmacro/require.o
 
 .PHONY: clean
 clean:

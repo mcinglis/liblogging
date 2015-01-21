@@ -14,7 +14,7 @@ int main( int const argc,
 
     log_warning( l, "error's severity is 30, so this will be printed" );
 
-    log_error( l, "There are five pre-defined logging levels: debug (10),"
+    log_error( l, "There are five pre-defined logging levels: debug (10), "
                   "info (20), warning (30), error (40), and critical (50)." );
 
     log_critical( l, "Each of the default logging levels has a corresponding "

@@ -34,6 +34,11 @@ typedef struct {
     bool nothing;
 } Maybe_LogSeverity;
 
+typedef struct {
+    LogSeverity value;
+    int error;
+} Result_LogSeverity;
+
 
 typedef struct LogLevel {
     char const * name;
@@ -63,8 +68,19 @@ extern LogLevel const log_level_critical;
 #define LOG_SEVERITY__CRITICAL  50
 
 
-Maybe_LogSeverity
+void
+log_severity__to_str( LogSeverity,
+                      char * buf,
+                      size_t buf_size );
+
+
+Result_LogSeverity
 log_severity__from_str( char const * str );
+
+
+LogSeverity
+log_severity__from_str_e( char const * str,
+                          int * err );
 
 
 Logger
