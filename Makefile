@@ -17,9 +17,15 @@ cflags_warnings := -Wall -Wextra -pedantic \
 
 CFLAGS ?= $(cflags_std) -g $(cflags_warnings)
 
-sources := $(wildcard *.c)
-objects := $(sources:.c=.o)
-mkdeps  := $(objects:.o=.dep.mk)
+example_sources := $(wildcard examples/*.c)
+example_objects := $(example_sources:.c=.o)
+examples := $(example_sources:.c=)
+
+sources  := $(wildcard *.c)
+objects  := $(sources:.c=.o)
+
+
+mkdeps   := $(objects:.o=.dep.mk) $(example_objects:.o=.dep.mk)
 
 
 ##############################
@@ -27,24 +33,36 @@ mkdeps  := $(objects:.o=.dep.mk)
 ##############################
 
 .PHONY: all
-all: objects example
+all: objects examples
 
 .PHONY: fast
 fast: CPPFLAGS += -DNDEBUG -DNO_ASSERT -DNO_REQUIRE -DNO_DEBUG
 fast: CFLAGS = $(cflags_std) -O3 $(cflags_warnings)
 fast: all
 
-.PHONY: objects
-objects: $(objects)
 
-example: logging.o \
-         $(DEPS_DIR)/libbase/uchar.o \
-         $(DEPS_DIR)/libbase/str.o \
-         $(DEPS_DIR)/libmacro/require.o
+.PHONY: objects
+objects: $(objects) logging.o
+
+logging.o: $(objects)
+	$(LD) -r $^ -o $@
+
+
+.PHONY: examples
+examples: $(examples)
+
+$(examples): logging.o \
+             $(DEPS_DIR)/libmacro/require.o \
+             $(DEPS_DIR)/libbase/uchar.o \
+             $(DEPS_DIR)/libbase/str.o
+
+examples/simple: examples/simple.o
+examples/own-level: examples/own-level.o
+
 
 .PHONY: clean
 clean:
-	rm -rf $(objects) $(mkdeps) example
+	rm -rf $(objects) logging.o $(example_objects) $(examples) $(mkdeps)
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(CPPFLAGS) -MMD -MF "$(@:.o=.dep.mk)" -c $< -o $@

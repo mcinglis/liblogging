@@ -1,42 +1,52 @@
 **Liblogging** is a barebones logging library for C. It's flexible yet simple.
 
 ``` c
-#include <liblogging/logging.h>
+#include <liblogging/logger.h>
 
 int main( int const argc,
           char const * const * const argv )
 {
-    Logger const l = logger__new( .name = argv[ 0 ],
-                                  .min_severity = 20 );
+    Logger const l = logger__new( .min_severity = log_severity_info );
 
     log_info( l, "Our logger has the default logging handler (%p), "
                  "which will print messages to stderr as long as the "
                  "given level's severity is less than `min_severity`: %u",
-                 l.log, l.min_severity.v );
+                 l.log, l.min_severity );
 
-    log_warning( l, "error's severity is 30, so this will be printed" );
+    log_warning( l, "ERROR's severity is 30, so this will be printed" );
 
-    log_error( l, "There are five pre-defined logging levels: DEBUG (10),"
-                  "INFO (20), WARNING (30), ERROR (40), and CRITICAL (50)." );
+    log_debug( l, "but DEBUG's severity is 10, so this won't be printed" );
+
+    log_error( l, "There are five pre-defined logging levels: debug (10), "
+                  "info (20), warning (30), error (40), and critical (50)." );
 
     log_critical( l, "Each of the default logging levels has a corresponding "
-                     "macro that is shorthand for calling the `log` member of "
-                     "the given Logger value." );
-
-    // For example, this:
-    log_debug( l, "hello world #%d", 42 );
-    // is shorthand for:
-    if ( l.log != NULL ) {
-        l.log( l, log_level_debug, "hello world #%d", 42 );
-    }
-
-    // Note that those last two log calls will not be printed, because the
-    // severity level of `log_level_debug` is less than the logger's
-    // minimum severity of 20.
+                     "function that calls the `log` member of the given "
+                     "Logger value with that level." );
 }
 ```
 
-The design of Liblogging allows for you to add your own logging levels (define a new `LogLevel` value, and pass it to the `log` member function), and to control *how* you handle log events (set the `log` member on your `Logger` value to your own function).
+The design of Liblogging makes it easy for you to add your own logging levels (define a new `LogLevel` value, and a corresponding function to make it easy to use), and to control *how* you handle log events (set the `log` member on your `Logger` value to your own function).
+
+For example, to define your own logging level `wtf`:
+
+``` c
+// Define the level - it could be named anything, and needn't be `const`:
+LogLevel const log_level_wtf = { .name = "WTF", .severity = 100 };
+
+// Define the `log_wtf` function with the normal behavior - you could define
+// your own function with whatever named to have whatever behavior you want:
+LOG_FUNC_DEF( wtf, log_level_wtf )
+
+int main( void )
+{
+    Logger const logger = logger__new( .min_severity = log_severity_info );
+    log_critical( logger, "this is bad enough!" );
+    // CRITICAL: this is bad enough!
+    log_wtf( logger, "but this is catastrophic!!!" );
+    // WTF: but this is catastrophic!!!
+}
+```
 
 
 ## Releases
