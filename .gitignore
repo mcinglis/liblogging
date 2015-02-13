@@ -1,4 +1,5 @@
 deps
-example
+examples/simple
+examples/own-level
 *.o
 *.dep.mk

@@ -31,8 +31,8 @@
 
 
 typedef struct Logger {
-    void const * s;   // constant state
-    void * ms;        // mutable state
+    void const * c;   // constant state
+    void * m;         // mutable state
     LogSeverity min_severity;
     int ( * log )( struct Logger, LogLevel, char const * format, va_list );
 } Logger;
@@ -74,8 +74,14 @@ logger__default_log( Logger,
     }
 
 
+#ifdef HAVE_ATTRIBUTE_FORMAT
+#define DECL_FUNC_ATTR __attribute__((format(printf, 2, 3)))
+#else
+#define DECL_FUNC_ATTR
+#endif
+
 #define DECL_FUNC( L, U ) \
-    int log_##L( Logger, char const * format, ... );
+    int log_##L( Logger, char const * format, ... ) DECL_FUNC_ATTR;
 PP_MAP_LISTS( DECL_FUNC, PP_SEP_NONE, LOG_LEVELS )
 #undef DECL_FUNC
 

@@ -27,33 +27,12 @@
 #include <libtypes/types.h>
 
 
-typedef uchar LogSeverity;
-
-typedef struct {
-    LogSeverity value;
-    bool nothing;
-} Maybe_LogSeverity;
-
-typedef struct {
-    LogSeverity value;
-    int error;
-} Result_LogSeverity;
-
+typedef int LogSeverity;
 
 typedef struct LogLevel {
     char const * name;
     LogSeverity severity;
 } LogLevel;
-
-typedef struct {
-    LogLevel value;
-    bool nothing;
-} Maybe_LogLevel;
-
-typedef struct {
-    LogLevel value;
-    int error;
-} Result_LogLevel;
 
 
 // Add or remove default levels here: (but for your own application, it would
@@ -88,19 +67,26 @@ PP_MAP_LISTS( DECL_LEVEL, PP_SEP_NONE, LOG_LEVELS )
 extern LogLevel const log_levels[ PP_COUNT( LOG_LEVELS ) ];
 
 
+LogSeverity
+log_severity__min_bound( void );
+
+
+LogSeverity
+log_severity__max_bound( void );
+
+
+char const *
+log_severity__to_conststr( LogSeverity );
+
+
 void
 log_severity__to_str( LogSeverity,
                       char * buf,
                       size_t buf_size );
 
 
-Result_LogSeverity
-log_severity__from_str( char const * str );
-
-
 LogSeverity
-log_severity__from_str_e( char const * str,
-                          int * err );
+log_severity__from_str( char const * str );
 
 
 #endif
