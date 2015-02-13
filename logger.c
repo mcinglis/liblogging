@@ -30,7 +30,7 @@ logger__default_log( Logger const logger,
     } else if ( level.severity < logger.min_severity ) {
         return 0;
     }
-    char const * const logger_name = logger.s;
+    char const * const logger_name = logger.c;
     if ( ( logger_name != NULL && fprintf( stderr, "%s: ", logger_name ) < 0 )
       || ( level.name != NULL && fprintf( stderr, "%s: ", level.name ) < 0 )
       || vfprintf( stderr, format, var_args ) < 0
