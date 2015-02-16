@@ -52,12 +52,7 @@ logging.o: $(objects)
 examples: $(examples)
 
 $(examples): logging.o \
-             $(DEPS_DIR)/libmacro/require.o \
-             $(DEPS_DIR)/libbase/uchar.o \
              $(DEPS_DIR)/libbase/str.o
-
-examples/simple: examples/simple.o
-examples/own-level: examples/own-level.o
 
 
 .PHONY: clean
