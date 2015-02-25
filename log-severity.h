@@ -38,6 +38,8 @@ typedef struct LogLevel {
 // Add or remove default levels here: (but for your own application, it would
 // probably be best to define your own levels directly)
 
+// @public begin
+
 #define LOG_SEVERITY_DEBUG     10
 #define LOG_SEVERITY_INFO      20
 #define LOG_SEVERITY_WARNING   30
@@ -50,6 +52,8 @@ typedef struct LogLevel {
     ( warning,  WARNING ), \
     ( error,    ERROR ), \
     ( critical, CRITICAL )
+
+// @public end
 
 
 #define DECL_SEV( L, U ) \

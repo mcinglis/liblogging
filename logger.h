@@ -56,11 +56,13 @@ logger__default_log( Logger,
                      va_list );
 
 
+// @public
 #define LOGGER_DEFAULT \
     { .log = logger__default_log, \
       .min_severity = LOG_SEVERITY_INFO }
 
 
+// @public
 #define LOG_FUNC_DEF( NAME, LEVEL ) \
     void                                                                      \
     NAME( Logger const logger,                                                \
@@ -78,12 +80,14 @@ logger__default_log( Logger,
     }
 
 
+// @public
 #ifdef HAVE_ATTRIBUTE_FORMAT
 #define DECL_FUNC_ATTR __attribute__((format(printf, 2, 3)))
 #else
 #define DECL_FUNC_ATTR
 #endif
 
+// @public
 #define DECL_FUNC( L, U ) \
     void log_##L( Logger, char const * format, ... ) DECL_FUNC_ATTR;
 PP_MAP_LISTS( DECL_FUNC, PP_SEP_NONE, LOG_LEVELS )
