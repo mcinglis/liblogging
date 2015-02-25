@@ -1,4 +1,4 @@
-**Liblogging** is a barebones logging library for C. It's flexible yet simple.
+**Liblogging** is a flexible-yet-simple logging library for C.
 
 ``` c
 #include <liblogging/logger.h>
@@ -6,14 +6,16 @@
 int main( int const argc,
           char const * const * const argv )
 {
-    Logger const logger = logger__new( .c = argv[ 0 ],
+    Logger const logger = logger__new( .name = argv[ 0 ],
+                                       .file = stdout, // default: stderr
                                        .min_severity = log_severity_info );
 
     log_info( logger,
             "Our logger has the default logging handler, which will print "
-            "messages to stderr, prefixed with the `s` member (%s), as long "
-            "as the given level's severity is less than `min_severity`: %u",
-            ( char const * ) logger.c, logger.min_severity );
+            "messages to `file`, prefixed with the `name` member (%s), so "
+            "long as the message's level's severity is less than the "
+            "logger's `min_severity` member: %u",
+            logger.name, logger.min_severity );
 
     log_warning( logger,
             "There are five pre-defined logging levels: debug (10), "
@@ -42,12 +44,12 @@ For example, to define your own logging level `wtf`:
 LogLevel const log_level_wtf = { .name = "WTF", .severity = 100 };
 
 // Define the `log_wtf` function with the normal behavior - you could define
-// your own function with whatever named to have whatever behavior you want:
-LOG_FUNC_DEF( wtf, log_level_wtf )
+// your own function with whatever name to have whatever behavior you want:
+LOG_FUNC_DEF( log_wtf, log_level_wtf )
 
 int main( void )
 {
-    Logger const logger = logger__new( .min_severity = log_severity_info );
+    Logger const logger = logger__new( .min_severity = log_severity_warning );
     log_critical( logger, "this is bad enough!" );
     // CRITICAL: this is bad enough!
     log_wtf( logger, "but this is catastrophic!!!" );

@@ -21,6 +21,7 @@
 #define LIBLOGGING_LOGGER_H
 
 
+#include <stdio.h>
 #include <stdarg.h>
 
 #include <libpp/map-lists.h>
@@ -30,11 +31,13 @@
 #include "log-severity.h"
 
 
-typedef struct Logger {
-    void const * c;   // constant state
-    void * m;         // mutable state
+typedef struct logger {
     LogSeverity min_severity;
-    int ( * log )( struct Logger, LogLevel, char const * format, va_list );
+    char const * name;
+    FILE * file;
+    void const * c;   // extra constant state
+    void * m;         // extra mutable state
+    void ( * log )( struct logger, LogLevel, char const * format, va_list );
 } Logger;
 
 
@@ -46,7 +49,7 @@ logger__new_( Logger options );
     logger__new_( ( Logger ){ __VA_ARGS__ } )
 
 
-int
+void
 logger__default_log( Logger,
                      LogLevel,
                      char const * format,
@@ -59,18 +62,19 @@ logger__default_log( Logger,
 
 
 #define LOG_FUNC_DEF( NAME, LEVEL ) \
-    int log_##NAME( Logger const logger,                                      \
-                    char const * format,                                      \
-                    ... )                                                     \
+    void                                                                      \
+    NAME( Logger const logger,                                                \
+          char const * format,                                                \
+          ... )                                                               \
     {                                                                         \
+        /* We assume that `va_*` will not modify `errno`; neither ISO C11 */  \
+        /* nor POSIX.1-2008 suggest that they would. */                       \
         va_list ap;                                                           \
         va_start( ap, format );                                               \
-        int r = 0;                                                            \
         if ( logger.log != NULL ) {                                           \
-            r = logger.log( logger, LEVEL, format, ap );                      \
+            logger.log( logger, LEVEL, format, ap );                          \
         }                                                                     \
         va_end( ap );                                                         \
-        return r;                                                             \
     }
 
 
@@ -81,7 +85,7 @@ logger__default_log( Logger,
 #endif
 
 #define DECL_FUNC( L, U ) \
-    int log_##L( Logger, char const * format, ... ) DECL_FUNC_ATTR;
+    void log_##L( Logger, char const * format, ... ) DECL_FUNC_ATTR;
 PP_MAP_LISTS( DECL_FUNC, PP_SEP_NONE, LOG_LEVELS )
 #undef DECL_FUNC
 

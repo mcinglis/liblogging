@@ -5,14 +5,16 @@
 int main( int const argc,
           char const * const * const argv )
 {
-    Logger const logger = logger__new( .c = argv[ 0 ],
+    Logger const logger = logger__new( .name = argv[ 0 ],
+                                       .file = stdout, // default: stderr
                                        .min_severity = log_severity_info );
 
     log_info( logger,
             "Our logger has the default logging handler, which will print "
-            "messages to stderr, prefixed with the `s` member (%s), as long "
-            "as the given level's severity is less than `min_severity`: %u",
-            ( char const * ) logger.c, logger.min_severity );
+            "messages to `file`, prefixed with the `name` member (%s), so "
+            "long as the message's level's severity is less than the "
+            "logger's `min_severity` member: %u",
+            logger.name, logger.min_severity );
 
     log_warning( logger,
             "There are five pre-defined logging levels: debug (10), "

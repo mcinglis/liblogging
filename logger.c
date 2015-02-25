@@ -12,6 +12,9 @@
 Logger
 logger__new_( Logger options )
 {
+    if ( options.file == NULL ) {
+        options.file = stderr;
+    }
     if ( options.log == NULL ) {
         options.log = logger__default_log;
     }
@@ -19,30 +22,29 @@ logger__new_( Logger options )
 }
 
 
-int
+void
 logger__default_log( Logger const logger,
                      LogLevel const level,
                      char const * const format,
                      va_list var_args )
 {
-    if ( format == NULL ) {
-        return EINVAL;
-    } else if ( level.severity < logger.min_severity ) {
-        return 0;
+    if ( format == NULL || level.severity < logger.min_severity ) { return; }
+
+    int const saved_errno = errno;
+    if ( logger.name != NULL ) {
+        fprintf( logger.file, "%s: ", logger.name );
     }
-    char const * const logger_name = logger.c;
-    if ( ( logger_name != NULL && fprintf( stderr, "%s: ", logger_name ) < 0 )
-      || ( level.name != NULL && fprintf( stderr, "%s: ", level.name ) < 0 )
-      || vfprintf( stderr, format, var_args ) < 0
-      || fprintf( stderr, "\n" ) < 0 ) {
-        return EIO;
+    if ( level.name != NULL ) {
+        fprintf( logger.file, "%s: ", level.name );
     }
-    return 0;
+    vfprintf( logger.file, format, var_args );
+    fprintf( logger.file, "\n" );
+    errno = saved_errno;
 }
 
 
 #define DEF_FUNC( L, U ) \
-    LOG_FUNC_DEF( L, log_level_##L )
+    LOG_FUNC_DEF( log_##L, log_level_##L )
 PP_MAP_LISTS( DEF_FUNC, PP_SEP_NONE, LOG_LEVELS )
 #undef DEF_FUNC
 

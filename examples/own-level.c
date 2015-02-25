@@ -7,7 +7,7 @@ LogLevel const log_level_wtf = { .name = "WTF", .severity = 100 };
 
 // Define the `log_wtf` function with the normal behavior - you could define
 // your own function with whatever named to have whatever behavior you want:
-LOG_FUNC_DEF( wtf, log_level_wtf )
+LOG_FUNC_DEF( log_wtf, log_level_wtf )
 
 int main( void )
 {
