@@ -52,7 +52,8 @@ logging.o: $(objects)
 examples: $(examples)
 
 $(examples): logging.o \
-             $(DEPS_DIR)/libbase/str.o
+             $(DEPS_DIR)/libbase/char.o \
+             $(DEPS_DIR)/libstr/str.o
 
 
 .PHONY: clean

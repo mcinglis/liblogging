@@ -44,8 +44,8 @@ logger__default_log( Logger const logger,
 
 
 #define DEF_FUNC( L, U ) \
-    LOG_FUNC_DEF( log_##L, log_level_##L )
-PP_MAP_LISTS( DEF_FUNC, PP_SEP_NONE, LOG_LEVELS )
+    LOG_FUNC_DEF( log_##L, loglevel_##L )
+PP_MAP_LISTS( DEF_FUNC, PP_SEP_NONE, LOGLEVELS )
 #undef DEF_FUNC
 
 

@@ -28,7 +28,7 @@
 #include <libpp/separators.h>
 #include <libtypes/types.h>
 
-#include "log-severity.h"
+#include "logseverity.h"
 
 
 typedef struct logger {
@@ -59,7 +59,7 @@ logger__default_log( Logger,
 // @public
 #define LOGGER_DEFAULT \
     { .log = logger__default_log, \
-      .min_severity = LOG_SEVERITY_INFO }
+      .min_severity = LOGSEVERITY_INFO }
 
 
 // @public
@@ -90,7 +90,7 @@ logger__default_log( Logger,
 // @public
 #define DECL_FUNC( L, U ) \
     void log_##L( Logger, char const * format, ... ) DECL_FUNC_ATTR;
-PP_MAP_LISTS( DECL_FUNC, PP_SEP_NONE, LOG_LEVELS )
+PP_MAP_LISTS( DECL_FUNC, PP_SEP_NONE, LOGLEVELS )
 #undef DECL_FUNC
 
 

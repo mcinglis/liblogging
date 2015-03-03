@@ -29,7 +29,7 @@
 
 typedef int LogSeverity;
 
-typedef struct LogLevel {
+typedef struct loglevel {
     char const * name;
     LogSeverity severity;
 } LogLevel;
@@ -40,13 +40,13 @@ typedef struct LogLevel {
 
 // @public begin
 
-#define LOG_SEVERITY_DEBUG     10
-#define LOG_SEVERITY_INFO      20
-#define LOG_SEVERITY_WARNING   30
-#define LOG_SEVERITY_ERROR     40
-#define LOG_SEVERITY_CRITICAL  50
+#define LOGSEVERITY_DEBUG     10
+#define LOGSEVERITY_INFO      20
+#define LOGSEVERITY_WARNING   30
+#define LOGSEVERITY_ERROR     40
+#define LOGSEVERITY_CRITICAL  50
 
-#define LOG_LEVELS \
+#define LOGLEVELS \
     ( debug,    DEBUG ), \
     ( info,     INFO ), \
     ( warning,  WARNING ), \
@@ -57,40 +57,34 @@ typedef struct LogLevel {
 
 
 #define DECL_SEV( L, U ) \
-    extern LogSeverity const log_severity_##L;
-PP_MAP_LISTS( DECL_SEV, PP_SEP_NONE, LOG_LEVELS )
+    extern LogSeverity const logseverity_##L;
+PP_MAP_LISTS( DECL_SEV, PP_SEP_NONE, LOGLEVELS )
 #undef DECL_SEV
 
 
 #define DECL_LEVEL( L, U ) \
-    extern LogLevel const log_level_##L;
-PP_MAP_LISTS( DECL_LEVEL, PP_SEP_NONE, LOG_LEVELS )
+    extern LogLevel const loglevel_##L;
+PP_MAP_LISTS( DECL_LEVEL, PP_SEP_NONE, LOGLEVELS )
 #undef DECL_LEVEL
 
 
-extern LogLevel const log_levels[ PP_COUNT( LOG_LEVELS ) ];
+extern LogLevel const loglevels[ PP_COUNT( LOGLEVELS ) ];
 
 
 LogSeverity
-log_severity__min_bound( void );
+logseverity__min_bound( void );
 
 
 LogSeverity
-log_severity__max_bound( void );
+logseverity__max_bound( void );
+
+
+LogSeverity
+logseverity__from_str( char const * str );
 
 
 char const *
-log_severity__to_conststr( LogSeverity );
-
-
-void
-log_severity__to_str( LogSeverity,
-                      char * buf,
-                      size_t buf_size );
-
-
-LogSeverity
-log_severity__from_str( char const * str );
+str__from_logseverity( LogSeverity );
 
 
 #endif

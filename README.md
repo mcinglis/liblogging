@@ -8,7 +8,7 @@ int main( int const argc,
 {
     Logger const logger = logger__new( .name = argv[ 0 ],
                                        .file = stdout, // default: stderr
-                                       .min_severity = log_severity_info );
+                                       .min_severity = logseverity_info );
 
     log_info( logger,
             "Our logger has the default logging handler, which will print "
@@ -49,7 +49,7 @@ LOG_FUNC_DEF( log_wtf, log_level_wtf )
 
 int main( void )
 {
-    Logger const logger = logger__new( .min_severity = log_severity_warning );
+    Logger const logger = logger__new( .min_severity = logseverity_warning );
     log_critical( logger, "this is bad enough!" );
     // CRITICAL: this is bad enough!
     log_wtf( logger, "but this is catastrophic!!!" );

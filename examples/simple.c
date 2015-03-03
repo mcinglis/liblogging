@@ -7,7 +7,7 @@ int main( int const argc,
 {
     Logger const logger = logger__new( .name = argv[ 0 ],
                                        .file = stdout, // default: stderr
-                                       .min_severity = log_severity_info );
+                                       .min_severity = logseverity_info );
 
     log_info( logger,
             "Our logger has the default logging handler, which will print "
