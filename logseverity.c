@@ -51,7 +51,7 @@ str__from_logseverity( LogSeverity const s )
             return level.name;
         }
     }
-    return NULL;
+    return "unknown";
 }
 
 
