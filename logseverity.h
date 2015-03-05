@@ -83,6 +83,12 @@ LogSeverity
 logseverity__from_str( char const * str );
 
 
+void
+logseverity__arg_parse( char const * name,
+                        char const * value,
+                        void * vlogsev );
+
+
 char const *
 str__from_logseverity( LogSeverity );
 

@@ -10,6 +10,7 @@
 #include <libpp/map-lists.h>
 #include <libpp/separators.h>
 #include <libtypes/types.h>
+#include <libmacro/assert.h>
 #include <libmacro/minmax.h>
 #include <libmacro/nelem.h>
 #include <libstr/str.h>
@@ -58,6 +59,8 @@ str__from_logseverity( LogSeverity const s )
 LogSeverity
 logseverity__from_str( char const * const str )
 {
+    ASSERT( str != NULL );
+
     for ( size_t i = 0; i < NELEM( loglevels ); i++ ) {
         LogLevel const level = loglevels[ i ];
         if ( str__equal_i( level.name, str ) ) {
@@ -80,5 +83,17 @@ logseverity__from_str( char const * const str )
     } else {
         return x;
     }
+}
+
+
+void
+logseverity__arg_parse( char const * const name,
+                        char const * const value,
+                        void * const vlogsev )
+{
+    ASSERT( value != NULL, vlogsev != NULL );
+
+    LogSeverity * const v = vlogsev;
+    *v = logseverity__from_str( value );
 }
 
