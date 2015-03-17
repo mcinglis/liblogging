@@ -44,7 +44,7 @@ LogSeverity logseverity__max_bound( void ) { return INT_MAX; }
 
 
 char const *
-str__from_logseverity( LogSeverity const s )
+logseverity__to_str( LogSeverity const s )
 {
     for ( size_t i = 0; i < NELEM( loglevels ); i++ ) {
         LogLevel const level = loglevels[ i ];

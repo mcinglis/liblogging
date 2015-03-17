@@ -90,7 +90,7 @@ logseverity__arg_parse( char const * name,
 
 
 char const *
-str__from_logseverity( LogSeverity );
+logseverity__to_str( LogSeverity );
 
 
 #endif

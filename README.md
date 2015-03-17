@@ -72,6 +72,8 @@ Every version tag will be signed with [my GPG key](http://pool.sks-keyservers.ne
 ``` sh
 $ puck update
 $ puck execute build
+# Now you can:
+$ make
 ```
 
 There's nothing magic to what Puck does, so if you would prefer, you can set up the dependencies manually. You just need to have the dependencies in the `deps` directory within the Liblogging directory, and have them built (if necessary) before building Liblogging.
@@ -79,7 +81,7 @@ There's nothing magic to what Puck does, so if you would prefer, you can set up 
 
 ## Collaboration
 
-Liblogging is available at [Gitorious](https://gitorious.org/mcinglis/liblogging), [Bitbucket](https://bitbucket.org/mcinglis/liblogging), and [GitHub](https://github.com/mcinglis/liblogging).
+Liblogging is available at [Bitbucket](https://bitbucket.org/mcinglis/liblogging) and [GitHub](https://github.com/mcinglis/liblogging).
 
 Questions, discussion, bug reports and feature requests are welcome at [the GitHub issue tracker](https://github.com/mcinglis/liblogging/issues), or via [emails](mailto:me@minglis.id.au).
 
