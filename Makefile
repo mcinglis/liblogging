@@ -5,6 +5,8 @@
 
 DEPS_DIR ?= ./deps
 
+LIBSTR ?= $(DEPS_DIR)/libstr
+
 CPPFLAGS += -I$(DEPS_DIR)
 
 cflags_std := -std=c11
@@ -17,15 +19,11 @@ cflags_warnings := -Wall -Wextra -pedantic \
 
 CFLAGS ?= $(cflags_std) -g $(cflags_warnings)
 
-example_sources := $(wildcard examples/*.c)
-example_objects := $(example_sources:.c=.o)
-examples := $(example_sources:.c=)
 
 sources  := $(wildcard *.c)
 objects  := $(sources:.c=.o)
-
-
-mkdeps   := $(objects:.o=.dep.mk) $(example_objects:.o=.dep.mk)
+mkdeps   := $(objects:.o=.dep.mk)
+examples := $(basename $(wildcard examples/*.c))
 
 
 ##############################
@@ -36,32 +34,31 @@ mkdeps   := $(objects:.o=.dep.mk) $(example_objects:.o=.dep.mk)
 all: objects examples
 
 .PHONY: fast
-fast: CPPFLAGS += -DNDEBUG -DNO_ASSERT -DNO_REQUIRE -DNO_DEBUG
+fast: CPPFLAGS += -DNDEBUG
 fast: CFLAGS = $(cflags_std) -O3 $(cflags_warnings)
 fast: all
 
-
 .PHONY: objects
-objects: $(objects) logging.o
-
-logging.o: $(objects)
-	$(LD) -r $^ -o $@
-
+objects: $(objects) liblogging.o
 
 .PHONY: examples
 examples: $(examples)
 
-$(examples): logging.o \
-             $(DEPS_DIR)/libbase/char.o \
-             $(DEPS_DIR)/libstr/str.o
-
-
 .PHONY: clean
 clean:
-	rm -rf $(objects) logging.o $(example_objects) $(examples) $(mkdeps)
+	rm -rf $(objects) liblogging.o $(examples) $(mkdeps)
+
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(CPPFLAGS) -MMD -MF "$(@:.o=.dep.mk)" -c $< -o $@
+
+
+liblogging.o: $(objects)
+	$(LD) -r $^ -o $@
+
+$(examples): logging.o \
+             $(LIBSTR)/str.o
+
 
 -include $(mkdeps)
 
