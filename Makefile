@@ -39,24 +39,22 @@ fast: CFLAGS = $(cflags_std) -O3 $(cflags_warnings)
 fast: all
 
 .PHONY: objects
-objects: $(objects) liblogging.o
+objects: $(objects)
 
 .PHONY: examples
 examples: $(examples)
 
 .PHONY: clean
 clean:
-	rm -rf $(objects) liblogging.o $(examples) $(mkdeps)
+	rm -rf $(objects) $(examples) $(mkdeps)
 
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(CPPFLAGS) -MMD -MF "$(@:.o=.dep.mk)" -c $< -o $@
 
 
-liblogging.o: $(objects)
-	$(LD) -r $^ -o $@
-
-$(examples): logging.o \
+$(examples): logseverity.o \
+             logger.o \
              $(LIBSTR)/str.o
 
 
