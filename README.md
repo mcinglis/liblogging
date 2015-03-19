@@ -78,7 +78,7 @@ $ make
 
 There's nothing magic to what Puck does, so if you would prefer, you can set up the dependencies manually. You just need to have the dependencies in the `deps` directory within the Liblogging directory, and have them built (if necessary) before building Liblogging.
 
-There is no `build` command specified for Libtime, because you should manage the building of Liblogging's sources in your own project. Because `logseverity.c` depends on Libstr, which depends on files generated from Libmaybe, you would want to have that process integrated with the rest of your project.
+There is no `build` command specified for Liblogging, because you should manage the building of Liblogging's sources in your own project. Because `logseverity.c` depends on Libstr, which depends on files generated from Libmaybe, you would want to have that process integrated with the rest of your project.
 
 Despite this, there is a `Makefile` provided with the bare minimum to build to the object files. This is primarly to aid in development; checking that the code can actually compile.
 
