@@ -3,9 +3,10 @@
 ### VARIABLES
 ##############################
 
-DEPS_DIR ?= ./deps
+DEPS_DIR ?= deps
 
-LIBSTR ?= $(DEPS_DIR)/libstr
+LIBMAYBE := $(DEPS_DIR)/libmaybe
+LIBSTR   := $(DEPS_DIR)/libstr
 
 CPPFLAGS += -I$(DEPS_DIR)
 
@@ -18,6 +19,8 @@ cflags_warnings := -Wall -Wextra -pedantic \
                    -Wno-override-init -Wno-unused-parameter
 
 CFLAGS ?= $(cflags_std) -g $(cflags_warnings)
+
+TPLRENDER ?= $(DEPS_DIR)/tplrender/tplrender
 
 
 sources  := $(wildcard *.c)
@@ -46,12 +49,21 @@ examples: $(examples)
 
 .PHONY: clean
 clean:
-	rm -rf $(objects) $(examples) $(mkdeps)
+	rm -rf $(objects) $(examples) $(mkdeps) \
+	       $(LIBSTR)/str.o \
+	       $(LIBMAYBE)/def/maybe-size.h
 
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(CPPFLAGS) -MMD -MF "$(@:.o=.dep.mk)" -c $< -o $@
 
+
+$(LIBSTR)/str.o: $(LIBMAYBE)/def/maybe-size.h
+
+$(LIBMAYBE)/def/maybe-size.h: $(LIBMAYBE)/def.h.jinja
+	$(TPLRENDER) $< "size_t" -o $@
+
+logseverity.o: $(LIBMAYBE)/def/maybe-size.h
 
 $(examples): logseverity.o \
              logger.o \
