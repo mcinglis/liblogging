@@ -5,7 +5,6 @@
 
 DEPS_DIR ?= deps
 
-LIBMAYBE := $(DEPS_DIR)/libmaybe
 LIBSTR   := $(DEPS_DIR)/libstr
 
 CPPFLAGS += -I$(DEPS_DIR)
@@ -50,20 +49,12 @@ examples: $(examples)
 .PHONY: clean
 clean:
 	rm -rf $(objects) $(examples) $(mkdeps) \
-	       $(LIBSTR)/str.o \
-	       $(LIBMAYBE)/def/maybe-size.h
+	       $(LIBSTR)/str.o
 
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(CPPFLAGS) -MMD -MF "$(@:.o=.dep.mk)" -c $< -o $@
 
-
-$(LIBSTR)/str.o: $(LIBMAYBE)/def/maybe-size.h
-
-$(LIBMAYBE)/def/maybe-size.h: $(LIBMAYBE)/def.h.jinja
-	$(TPLRENDER) $< "size_t" -o $@
-
-logseverity.o: $(LIBMAYBE)/def/maybe-size.h
 
 $(examples): logseverity.o \
              logger.o \
