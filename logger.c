@@ -10,7 +10,8 @@
 
 
 Logger
-logger__new_( Logger options )
+logger__new_(
+        Logger options )
 {
     if ( options.file == NULL ) {
         options.file = stderr;
@@ -23,10 +24,11 @@ logger__new_( Logger options )
 
 
 void
-logger__default_log( Logger const logger,
-                     LogLevel const level,
-                     char const * const format,
-                     va_list var_args )
+logger__default_log(
+        Logger const logger,
+        LogLevel const level,
+        char const * const format,
+        va_list var_args )
 {
     if ( format == NULL || level.severity < logger.min_severity ) { return; }
 

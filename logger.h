@@ -21,6 +21,7 @@
 #define LIBLOGGING_LOGGER_H
 
 
+#include <errno.h>
 #include <stdio.h>
 #include <stdarg.h>
 
@@ -42,7 +43,8 @@ typedef struct logger {
 
 
 Logger
-logger__new_( Logger options );
+logger__new_(
+        Logger options );
 
 // @public
 #define logger__new( ... ) \
@@ -50,10 +52,11 @@ logger__new_( Logger options );
 
 
 void
-logger__default_log( Logger,
-                     LogLevel,
-                     char const * format,
-                     va_list );
+logger__default_log(
+        Logger,
+        LogLevel,
+        char const * format,
+        va_list );
 
 
 // @public
@@ -65,33 +68,35 @@ logger__default_log( Logger,
 // @public
 #define LOG_FUNC_DEF( NAME, LEVEL ) \
     void                                                                      \
-    NAME( Logger const logger,                                                \
-          char const * format,                                                \
-          ... )                                                               \
+    NAME(                                                                     \
+            Logger const logger,                                              \
+            char const * format,                                              \
+            ... )                                                             \
     {                                                                         \
-        /* We assume that `va_*` will not modify `errno`; neither ISO C11 */  \
-        /* nor POSIX.1-2008 suggest that they would. */                       \
+        int const saved_errno = errno;                                        \
         va_list ap;                                                           \
         va_start( ap, format );                                               \
         if ( logger.log != NULL ) {                                           \
             logger.log( logger, LEVEL, format, ap );                          \
         }                                                                     \
         va_end( ap );                                                         \
+        errno = saved_errno;                                                  \
     }
 
 
-// @public
 #ifdef HAVE_ATTRIBUTE_FORMAT
 #define DECL_FUNC_ATTR __attribute__((format(printf, 2, 3)))
 #else
 #define DECL_FUNC_ATTR
 #endif
 
-// @public
+
 #define DECL_FUNC( L, U ) \
     void log_##L( Logger, char const * format, ... ) DECL_FUNC_ATTR;
 PP_MAP_LISTS( DECL_FUNC, PP_SEP_NONE, LOGLEVELS )
 #undef DECL_FUNC
+
+#undef DECL_FUNC_ATTR
 
 
 #endif

@@ -80,17 +80,20 @@ logseverity__max_bound( void );
 
 
 LogSeverity
-logseverity__from_str( char const * str );
+logseverity__from_str(
+        char const * str );
 
 
 void
-logseverity__arg_parse( char const * name,
-                        char const * value,
-                        void * vlogsev );
+logseverity__argparse(
+        char const * name,
+        char const * value,
+        void * vlogsev );
 
 
 char const *
-logseverity__to_str( LogSeverity );
+logseverity__to_str(
+        LogSeverity );
 
 
 #endif

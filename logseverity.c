@@ -44,7 +44,8 @@ LogSeverity logseverity__max_bound( void ) { return INT_MAX; }
 
 
 char const *
-logseverity__to_str( LogSeverity const s )
+logseverity__to_str(
+        LogSeverity const s )
 {
     for ( size_t i = 0; i < NELEM( loglevels ); i++ ) {
         LogLevel const level = loglevels[ i ];
@@ -57,9 +58,13 @@ logseverity__to_str( LogSeverity const s )
 
 
 LogSeverity
-logseverity__from_str( char const * const str )
+logseverity__from_str(
+        char const * const str )
 {
-    ASSERT( str != NULL );
+    if ( str == NULL ) {
+        errno = EINVAL;
+        return 0;
+    }
 
     for ( size_t i = 0; i < NELEM( loglevels ); i++ ) {
         LogLevel const level = loglevels[ i ];
@@ -87,11 +92,12 @@ logseverity__from_str( char const * const str )
 
 
 void
-logseverity__arg_parse( char const * const name,
-                        char const * const value,
-                        void * const vlogsev )
+logseverity__argparse(
+        char const * const name,
+        char const * const value,
+        void * const vlogsev )
 {
-    ASSERT( value != NULL, vlogsev != NULL );
+    ASSERT( vlogsev != NULL );
 
     LogSeverity * const v = vlogsev;
     *v = logseverity__from_str( value );

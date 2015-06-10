@@ -2,7 +2,7 @@
 #include "../logger.h"
 
 
-// Define the level - it could be named anything, and needn't be `const`:
+// Define the level - it could be named anything:
 LogLevel const log_level_wtf = { .name = "WTF", .severity = 100 };
 
 // Define the `log_wtf` function with the normal behavior - you could define
