@@ -61,6 +61,8 @@ LogSeverity
 logseverity__from_str(
         char const * const str )
 {
+    errno = 0;
+
     if ( str == NULL ) {
         errno = EINVAL;
         return 0;
