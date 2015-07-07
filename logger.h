@@ -59,6 +59,12 @@ logger__default_log(
         va_list );
 
 
+void
+logger__parse_log_severity(
+        Logger *,
+        char const * str );
+
+
 // @public
 #define LOGGER_DEFAULT \
     { .log = logger__default_log, \

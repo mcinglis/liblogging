@@ -7,6 +7,7 @@
 #include <libpp/map-lists.h>
 #include <libpp/separators.h>
 #include <libtypes/types.h>
+#include <libmacro/assert.h>
 
 
 Logger
@@ -42,6 +43,19 @@ logger__default_log(
     vfprintf( logger.file, format, var_args );
     fprintf( logger.file, "\n" );
     errno = saved_errno;
+}
+
+
+void
+logger__parse_log_severity(
+        Logger * const logger,
+        char const * const str )
+{
+    ASSERT( logger != NULL );
+
+    LogSeverity const ls = logseverity__from_str( str );
+    if ( errno ) { return; }
+    logger->min_severity = ls;
 }
 
 
