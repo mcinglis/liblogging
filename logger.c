@@ -34,14 +34,15 @@ logger__default_log(
     if ( format == NULL || level.severity < logger.min_severity ) { return; }
 
     int const saved_errno = errno;
+    FILE * const file = logger.file ? logger.file : stderr;
     if ( logger.name != NULL ) {
-        fprintf( logger.file, "%s: ", logger.name );
+        fprintf( file, "%s: ", logger.name );
     }
     if ( level.name != NULL ) {
-        fprintf( logger.file, "%s: ", level.name );
+        fprintf( file, "%s: ", level.name );
     }
-    vfprintf( logger.file, format, var_args );
-    fprintf( logger.file, "\n" );
+    vfprintf( file, format, var_args );
+    fprintf( file, "\n" );
     errno = saved_errno;
 }
 
